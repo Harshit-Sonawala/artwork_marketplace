@@ -106,9 +106,17 @@ class _CartScreenState extends State<CartScreen> {
                                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                                         backgroundColor: Colors.red,
                                         elevation: 1.0,
-                                        onPressed: () => context.read<ArtworkList>().removeFromCart(
-                                              context.read<ArtworkList>().globalCart[listViewBuilderIndex].itemId,
+                                        onPressed: () => {
+                                          context.read<ArtworkList>().removeFromCart(
+                                                context.read<ArtworkList>().globalCart[listViewBuilderIndex].itemId,
+                                              ),
+                                          ScaffoldMessenger.of(context).showSnackBar(
+                                            const SnackBar(
+                                              content: Text('Removed From Cart'),
+                                              duration: Duration(milliseconds: 500),
                                             ),
+                                          ),
+                                        },
                                         child: const Icon(Icons.remove_shopping_cart),
                                       ),
                                     ),

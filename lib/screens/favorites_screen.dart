@@ -274,9 +274,17 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                               ),
                             ),
-                            onPressed: () => context.read<ArtworkList>().addToCart(
-                                  context.read<ArtworkList>().globalFavoritesList[listViewBuilderIndex].itemId,
+                            onPressed: () => {
+                              context.read<ArtworkList>().addToCart(
+                                    context.read<ArtworkList>().globalFavoritesList[listViewBuilderIndex].itemId,
+                                  ),
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text('Added To Cart'),
+                                  duration: Duration(milliseconds: 500),
                                 ),
+                              ),
+                            },
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: const [
