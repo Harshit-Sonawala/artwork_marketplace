@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../reusableWidgets/custom_drawer.dart';
-import './feed_screen.dart';
+import './browse_screen.dart';
 import './favorites_screen.dart';
 import './cart_screen.dart';
 import './account_screen.dart';
@@ -16,7 +16,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final List<Map<String, Object>> _pageData = [
     {
-      'page': FeedScreen(),
+      'page': BrowseScreen(),
       'title': 'Browse for Artworks',
     },
     {

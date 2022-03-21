@@ -1,75 +1,30 @@
-import 'package:flutter/material.dart';
-import '../models/artwork_item.dart';
+import 'dart:developer';
 
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../providers/artworklist_provider.dart';
 import '../reusableWidgets/custom_photo_view.dart';
 
-class FeedScreen extends StatefulWidget {
-  const FeedScreen({Key? key}) : super(key: key);
+class BrowseScreen extends StatefulWidget {
+  const BrowseScreen({Key? key}) : super(key: key);
 
   @override
-  State<FeedScreen> createState() => _FeedScreenState();
+  State<BrowseScreen> createState() => _BrowseScreenState();
 }
 
-class _FeedScreenState extends State<FeedScreen> {
-  List<ArtworkItem> finalArtworkList = [
-    ArtworkItem(
-      itemId: 'artworkitem1',
-      itemTitle: 'Artwork One',
-      itemArtist: 'John Doe',
-      itemDescription:
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-      itemImagePath: 'assets/images/artwork_image1.jpg',
-      itemCreationDate: '3rd February 2022',
-      itemPrice: 2000.0,
-    ),
-    ArtworkItem(
-      itemId: 'artworkitem2',
-      itemTitle: 'Dusk',
-      itemArtist: 'Jane Doe',
-      itemDescription:
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-      itemImagePath: 'assets/images/artwork_image2.jpg',
-      itemCreationDate: '15th September 2020',
-      itemPrice: 3500.0,
-    ),
-    ArtworkItem(
-      itemId: 'artworkitem3',
-      itemTitle: 'Red Sunset',
-      itemArtist: 'Robert Green',
-      itemDescription:
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-      itemImagePath: 'assets/images/artwork_image3.jpg',
-      itemCreationDate: '21st January 2020',
-      itemPrice: 4000.0,
-    ),
-    ArtworkItem(
-      itemId: 'artworkitem4',
-      itemTitle: 'Northern Lights',
-      itemArtist: 'Jack Black',
-      itemDescription:
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-      itemImagePath: 'assets/images/artwork_image4.jpg',
-      itemCreationDate: '5th March 2018',
-      itemPrice: 10500.0,
-    ),
-    ArtworkItem(
-      itemId: 'artworkitem5',
-      itemTitle: 'Snowy Peaks',
-      itemArtist: 'John Doe',
-      itemDescription:
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-      itemImagePath: 'assets/images/artwork_image5.jpg',
-      itemCreationDate: '12th February 2016',
-      itemPrice: 12999.0,
-    ),
-  ];
-  // List<bool> _isExpandedList = List<bool>.generate(100, (index) => false);
+class _BrowseScreenState extends State<BrowseScreen> {
+  // List<ArtworkItem> finalArtworkList = context.watch<ArtworkList>().globalArtworkList;
+  // List<bool> _isExpandedList = List<bool>.generate(context.read<ArtworkList>().globalArtworkList.length, (index) => false);
+  List<bool> _isExpandedList = List<bool>.generate(100, (index) => false);
 
   @override
   Widget build(BuildContext context) {
+    // int count = context.read<ArtworkList>().globalArtworkList.length;
+    // debugPrint('$count');
     return ListView.builder(
       padding: const EdgeInsets.all(16),
-      itemCount: 5,
+      itemCount: context.watch<ArtworkList>().globalArtworkList.length,
       itemBuilder: (BuildContext context, listViewBuilderIndex) {
         return Card(
           margin: const EdgeInsets.only(bottom: 25),
@@ -85,7 +40,7 @@ class _FeedScreenState extends State<FeedScreen> {
                     borderRadius: const BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10)),
                     child: Image.asset(
                       // 'assets/images/placeholder.jpg',
-                      finalArtworkList[listViewBuilderIndex].itemImagePath,
+                      context.watch<ArtworkList>().globalArtworkList[listViewBuilderIndex].itemImagePath,
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -98,8 +53,9 @@ class _FeedScreenState extends State<FeedScreen> {
                           onTap: () => Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) =>
-                                  CustomPhotoView(finalArtworkList[listViewBuilderIndex].itemImagePath),
+                              builder: (context) => CustomPhotoView(
+                                context.watch<ArtworkList>().globalArtworkList[listViewBuilderIndex].itemImagePath,
+                              ),
                             ),
                           ),
                           child: Container(
@@ -118,7 +74,27 @@ class _FeedScreenState extends State<FeedScreen> {
                           width: 5,
                         ),
                         InkWell(
-                          onTap: () => {debugPrint('Toggled Favorite')},
+                          onTap: () => {
+                            context.read<ArtworkList>().checkFavorite(
+                                      context.read<ArtworkList>().globalArtworkList[listViewBuilderIndex].itemId,
+                                    )
+                                ? {
+                                    context.read<ArtworkList>().removeFromFavoritesList(
+                                          context.read<ArtworkList>().globalArtworkList[listViewBuilderIndex].itemId,
+                                        ),
+                                    ScaffoldMessenger.of(context)
+                                        .showSnackBar(const SnackBar(content: Text('Removed From Favorites')))
+                                  }
+                                : {
+                                    context.read<ArtworkList>().addToFavoritesList(
+                                          context.read<ArtworkList>().globalArtworkList[listViewBuilderIndex].itemId,
+                                        ),
+                                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                                      content: Text('Added To Favorites'),
+                                      duration: Duration(milliseconds: 500),
+                                    ))
+                                  }
+                          },
                           child: Container(
                             padding: const EdgeInsets.all(8),
                             decoration: const BoxDecoration(
@@ -126,7 +102,11 @@ class _FeedScreenState extends State<FeedScreen> {
                               color: Color.fromRGBO(0, 0, 0, 0.4),
                             ),
                             child: Icon(
-                              Icons.favorite,
+                              context.watch<ArtworkList>().checkFavorite(
+                                        context.read<ArtworkList>().globalArtworkList[listViewBuilderIndex].itemId,
+                                      )
+                                  ? Icons.favorite
+                                  : Icons.favorite_border,
                               color: Colors.pink,
                             ),
                           ),
@@ -144,17 +124,17 @@ class _FeedScreenState extends State<FeedScreen> {
                 elevation: 0,
                 animationDuration: const Duration(milliseconds: 400),
                 expansionCallback: (i, isExpanded) =>
-                    // setState(() => _isExpandedList[listViewBuilderIndex] = !_isExpandedList[listViewBuilderIndex]),
-                    setState(() => finalArtworkList[listViewBuilderIndex].isExpanded =
-                        !finalArtworkList[listViewBuilderIndex].isExpanded),
+                    setState(() => _isExpandedList[listViewBuilderIndex] = !_isExpandedList[listViewBuilderIndex]),
+                // setState(() => context.watch<ArtworkList>().globalArtworkList[listViewBuilderIndex].isExpanded =
+                //     !context.watch<ArtworkList>().globalArtworkList[listViewBuilderIndex].isExpanded),
                 children: [
                   ExpansionPanel(
                     canTapOnHeader: true,
-                    isExpanded: finalArtworkList[listViewBuilderIndex].isExpanded,
+                    isExpanded: _isExpandedList[listViewBuilderIndex],
                     headerBuilder: (context, isExpanded) => Padding(
                       padding: const EdgeInsets.all(10.0),
                       child: Text(
-                        finalArtworkList[listViewBuilderIndex].itemTitle,
+                        context.watch<ArtworkList>().globalArtworkList[listViewBuilderIndex].itemTitle,
                         style: TextStyle(fontSize: 21, color: Theme.of(context).primaryColor),
                       ),
                     ),
@@ -174,7 +154,8 @@ class _FeedScreenState extends State<FeedScreen> {
                             const SizedBox(
                               width: 10,
                             ),
-                            Text(finalArtworkList[listViewBuilderIndex].itemArtist, style: TextStyle(fontSize: 16)),
+                            Text(context.watch<ArtworkList>().globalArtworkList[listViewBuilderIndex].itemArtist,
+                                style: TextStyle(fontSize: 16)),
                             const SizedBox(
                               width: 10,
                             ),
@@ -196,7 +177,11 @@ class _FeedScreenState extends State<FeedScreen> {
                               width: 10,
                             ),
                             Text(
-                              finalArtworkList[listViewBuilderIndex].itemCreationDate.toString(),
+                              context
+                                  .watch<ArtworkList>()
+                                  .globalArtworkList[listViewBuilderIndex]
+                                  .itemCreationDate
+                                  .toString(),
                               style: const TextStyle(fontSize: 16),
                             ),
                           ],
@@ -204,9 +189,9 @@ class _FeedScreenState extends State<FeedScreen> {
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 12),
                           child: Text(
-                            finalArtworkList[listViewBuilderIndex].itemDescription,
+                            context.watch<ArtworkList>().globalArtworkList[listViewBuilderIndex].itemDescription,
                             textAlign: TextAlign.justify,
-                            style: TextStyle(fontSize: 15),
+                            style: const TextStyle(fontSize: 15),
                           ),
                         ),
                       ],
@@ -215,8 +200,8 @@ class _FeedScreenState extends State<FeedScreen> {
                 ],
               ),
               Container(
-                decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.all(Radius.circular(10)),
+                decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
                   // border: Border.all(width: 1.5, color: Colors.green),
                 ),
                 margin: const EdgeInsets.only(top: 0, left: 10, right: 10, bottom: 10),
@@ -233,7 +218,7 @@ class _FeedScreenState extends State<FeedScreen> {
                         // border: Border.all(width: 1.5, color: Colors.green),
                       ),
                       child: Text(
-                        'Price: Rs. 2999',
+                        'Rs. ${context.watch<ArtworkList>().globalArtworkList[listViewBuilderIndex].itemPrice.toString()}',
                         style: const TextStyle(fontSize: 17, fontWeight: FontWeight.bold, color: Colors.green),
                       ),
                     ),

@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 class ArtworkItem {
   String itemId;
   String itemTitle;
