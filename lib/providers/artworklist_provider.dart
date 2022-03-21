@@ -3,15 +3,15 @@ import 'package:flutter/material.dart';
 import '../models/artwork_item.dart';
 
 class ArtworkList with ChangeNotifier {
-  List<ArtworkItem> _globalArtworkList = [
+  final List<ArtworkItem> _globalArtworkList = [
     ArtworkItem(
       itemId: 'artworkitem1',
-      itemTitle: 'Artwork One',
+      itemTitle: 'Nightfall',
       itemArtist: 'John Doe',
       itemDescription:
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
       itemImagePath: 'assets/images/artwork_image1.jpg',
-      itemCreationDate: '3rd February 2022',
+      itemCreationDate: '3rd Feb, 2022',
       itemPrice: 2000.0,
     ),
     ArtworkItem(
@@ -22,7 +22,7 @@ class ArtworkList with ChangeNotifier {
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
       itemImagePath: 'assets/images/artwork_image2.jpg',
       itemCreationDate: '15th September 2020',
-      itemPrice: 3500.0,
+      itemPrice: 4200.0,
     ),
     ArtworkItem(
       itemId: 'artworkitem3',
@@ -31,8 +31,8 @@ class ArtworkList with ChangeNotifier {
       itemDescription:
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
       itemImagePath: 'assets/images/artwork_image3.jpg',
-      itemCreationDate: '21st January 2020',
-      itemPrice: 4000.0,
+      itemCreationDate: '21st Jan, 2020',
+      itemPrice: 3700.0,
     ),
     ArtworkItem(
       itemId: 'artworkitem4',
@@ -41,8 +41,8 @@ class ArtworkList with ChangeNotifier {
       itemDescription:
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
       itemImagePath: 'assets/images/artwork_image4.jpg',
-      itemCreationDate: '5th March 2018',
-      itemPrice: 10500.0,
+      itemCreationDate: '5th Mar, 2018',
+      itemPrice: 6500.0,
     ),
     ArtworkItem(
       itemId: 'artworkitem5',
@@ -51,13 +51,13 @@ class ArtworkList with ChangeNotifier {
       itemDescription:
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
       itemImagePath: 'assets/images/artwork_image5.jpg',
-      itemCreationDate: '12th February 2016',
-      itemPrice: 12999.0,
+      itemCreationDate: '12th Dec, 2016',
+      itemPrice: 4999.0,
     ),
   ];
 
-  List<ArtworkItem> _globalFavoritesList = [];
-  List<ArtworkItem> _globalCart = [];
+  final List<ArtworkItem> _globalFavoritesList = [];
+  final List<ArtworkItem> _globalCart = [];
 
   List<ArtworkItem> get globalArtworkList => _globalArtworkList;
   List<ArtworkItem> get globalFavoritesList => _globalFavoritesList;

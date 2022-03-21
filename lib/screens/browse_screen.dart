@@ -37,7 +37,10 @@ class _BrowseScreenState extends State<BrowseScreen> {
                 alignment: Alignment.bottomRight,
                 children: [
                   ClipRRect(
-                    borderRadius: const BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10)),
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(10),
+                      topRight: Radius.circular(10),
+                    ),
                     child: Image.asset(
                       // 'assets/images/placeholder.jpg',
                       context.watch<ArtworkList>().globalArtworkList[listViewBuilderIndex].itemImagePath,
@@ -82,17 +85,23 @@ class _BrowseScreenState extends State<BrowseScreen> {
                                     context.read<ArtworkList>().removeFromFavoritesList(
                                           context.read<ArtworkList>().globalArtworkList[listViewBuilderIndex].itemId,
                                         ),
-                                    ScaffoldMessenger.of(context)
-                                        .showSnackBar(const SnackBar(content: Text('Removed From Favorites')))
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content: Text('Removed From Favorites'),
+                                        duration: Duration(milliseconds: 500),
+                                      ),
+                                    )
                                   }
                                 : {
                                     context.read<ArtworkList>().addToFavoritesList(
                                           context.read<ArtworkList>().globalArtworkList[listViewBuilderIndex].itemId,
                                         ),
-                                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                                      content: Text('Added To Favorites'),
-                                      duration: Duration(milliseconds: 500),
-                                    ))
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content: Text('Added To Favorites'),
+                                        duration: Duration(milliseconds: 500),
+                                      ),
+                                    )
                                   }
                           },
                           child: Container(
@@ -110,9 +119,6 @@ class _BrowseScreenState extends State<BrowseScreen> {
                               color: Colors.pink,
                             ),
                           ),
-                        ),
-                        const SizedBox(
-                          width: 5,
                         ),
                       ],
                     ),
@@ -155,7 +161,7 @@ class _BrowseScreenState extends State<BrowseScreen> {
                               width: 10,
                             ),
                             Text(context.watch<ArtworkList>().globalArtworkList[listViewBuilderIndex].itemArtist,
-                                style: TextStyle(fontSize: 16)),
+                                style: const TextStyle(fontSize: 16)),
                             const SizedBox(
                               width: 10,
                             ),
