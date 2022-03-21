@@ -58,10 +58,12 @@ class ArtworkList with ChangeNotifier {
 
   final List<ArtworkItem> _globalFavoritesList = [];
   final List<ArtworkItem> _globalCart = [];
+  double _globalCartTotal = 0.0;
 
   List<ArtworkItem> get globalArtworkList => _globalArtworkList;
   List<ArtworkItem> get globalFavoritesList => _globalFavoritesList;
   List<ArtworkItem> get globalCart => _globalCart;
+  double get globalCartTotal => _globalCartTotal;
 
   bool checkFavorite(passedArtworkId) {
     List<ArtworkItem> foundList =
@@ -90,7 +92,6 @@ class ArtworkList with ChangeNotifier {
         globalFavoritesList.where((eachArtwork) => eachArtwork.itemId == passedArtworkId).toList();
     ArtworkItem itemToUnFav = foundList.first;
     if (globalFavoritesList.any((item) => item == itemToUnFav)) {
-      debugPrint('(Remove Function) Already There');
       globalFavoritesList.remove(itemToUnFav);
     } else {
       debugPrint('(Remove Function) Not There');
@@ -112,24 +113,37 @@ class ArtworkList with ChangeNotifier {
   void addToCart(passedArtworkId) {
     List<ArtworkItem> foundList =
         globalArtworkList.where((eachArtwork) => eachArtwork.itemId == passedArtworkId).toList();
-    ArtworkItem itemToFav = foundList.first;
-    if (globalCart.any((item) => item == itemToFav)) {
+    ArtworkItem itemToAdd = foundList.first;
+    if (globalCart.any((item) => item == itemToAdd)) {
       debugPrint('(Add Function) Already There');
     } else {
-      globalCart.add(itemToFav);
+      globalCart.add(itemToAdd);
+      _globalCartTotal = updateCartTotal();
     }
     notifyListeners();
   }
 
   void removeFromCart(passedArtworkId) {
     List<ArtworkItem> foundList = globalCart.where((eachArtwork) => eachArtwork.itemId == passedArtworkId).toList();
-    ArtworkItem itemToUnFav = foundList.first;
-    if (globalCart.any((item) => item == itemToUnFav)) {
-      debugPrint('(Remove Function) Already There');
-      globalCart.remove(itemToUnFav);
+    ArtworkItem itemToRemove = foundList.first;
+    if (globalCart.any((item) => item == itemToRemove)) {
+      globalCart.remove(itemToRemove);
+      _globalCartTotal = updateCartTotal();
     } else {
       debugPrint('(Remove Function) Not There');
     }
     notifyListeners();
+  }
+
+  double updateCartTotal() {
+    double localCartTotal = 0.0;
+    // globalCart.map((eachArtworkItem) {
+    //   localCartTotal += eachArtworkItem.itemPrice;
+    //   debugPrint('Total: $localCartTotal');
+    // });
+    for (int i = 0; i < globalCart.length; i++) {
+      localCartTotal = localCartTotal + globalCart[i].itemPrice;
+    }
+    return localCartTotal;
   }
 }

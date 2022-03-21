@@ -19,7 +19,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
     return context.watch<ArtworkList>().globalFavoritesList.isEmpty
         ? Center(
             child: Text(
-              'Add Items to Favorite',
+              'Add Items to Favorites',
               style: TextStyle(
                 color: Colors.grey[400],
                 fontSize: 18,
@@ -274,7 +274,9 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                               ),
                             ),
-                            onPressed: () => debugPrint('Add to cart pressed'),
+                            onPressed: () => context.read<ArtworkList>().addToCart(
+                                  context.read<ArtworkList>().globalFavoritesList[listViewBuilderIndex].itemId,
+                                ),
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: const [

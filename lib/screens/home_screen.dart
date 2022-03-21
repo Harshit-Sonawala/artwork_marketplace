@@ -53,7 +53,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       drawer: const CustomDrawer(),
       body: _pageData[_selectedPageIndex]['page'] as Widget,
-      floatingActionButton: FloatingActionButton(onPressed: () => {}, child: const Icon(Icons.add)),
+      // floatingActionButton: FloatingActionButton(onPressed: () => {}, child: const Icon(Icons.add)),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         currentIndex: _selectedPageIndex,

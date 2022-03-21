@@ -257,7 +257,9 @@ class _BrowseScreenState extends State<BrowseScreen> {
                           RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                         ),
                       ),
-                      onPressed: () => debugPrint('Add to cart pressed'),
+                      onPressed: () => context.read<ArtworkList>().addToCart(
+                            context.read<ArtworkList>().globalArtworkList[listViewBuilderIndex].itemId,
+                          ),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: const [
