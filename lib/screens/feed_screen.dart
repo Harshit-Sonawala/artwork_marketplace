@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '../models/artwork_item.dart';
 
+import '../reusableWidgets/custom_photo_view.dart';
+
 class FeedScreen extends StatefulWidget {
   const FeedScreen({Key? key}) : super(key: key);
 
@@ -17,7 +19,7 @@ class _FeedScreenState extends State<FeedScreen> {
       itemDescription:
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
       itemImagePath: 'assets/images/artwork_image1.jpg',
-      itemCreationDate: DateTime.utc(2020, 15, 9),
+      itemCreationDate: '3rd February 2022',
       itemPrice: 2000.0,
     ),
     ArtworkItem(
@@ -27,7 +29,7 @@ class _FeedScreenState extends State<FeedScreen> {
       itemDescription:
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
       itemImagePath: 'assets/images/artwork_image2.jpg',
-      itemCreationDate: DateTime.utc(2021, 15, 9),
+      itemCreationDate: '15th September 2020',
       itemPrice: 3500.0,
     ),
     ArtworkItem(
@@ -37,7 +39,7 @@ class _FeedScreenState extends State<FeedScreen> {
       itemDescription:
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
       itemImagePath: 'assets/images/artwork_image3.jpg',
-      itemCreationDate: DateTime.utc(2021, 15, 9),
+      itemCreationDate: '21st January 2020',
       itemPrice: 4000.0,
     ),
     ArtworkItem(
@@ -47,7 +49,7 @@ class _FeedScreenState extends State<FeedScreen> {
       itemDescription:
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
       itemImagePath: 'assets/images/artwork_image4.jpg',
-      itemCreationDate: DateTime.utc(2021, 15, 9),
+      itemCreationDate: '5th March 2018',
       itemPrice: 10500.0,
     ),
     ArtworkItem(
@@ -57,7 +59,7 @@ class _FeedScreenState extends State<FeedScreen> {
       itemDescription:
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
       itemImagePath: 'assets/images/artwork_image5.jpg',
-      itemCreationDate: DateTime.utc(2021, 15, 9),
+      itemCreationDate: '12th February 2016',
       itemPrice: 12999.0,
     ),
   ];
@@ -93,7 +95,13 @@ class _FeedScreenState extends State<FeedScreen> {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         InkWell(
-                          onTap: () => {debugPrint('View Fullscreen Pressed')},
+                          onTap: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  CustomPhotoView(finalArtworkList[listViewBuilderIndex].itemImagePath),
+                            ),
+                          ),
                           child: Container(
                             padding: const EdgeInsets.all(8),
                             decoration: const BoxDecoration(

@@ -6,7 +6,7 @@ class ArtworkItem {
   String itemArtist;
   String itemDescription;
   String itemImagePath;
-  DateTime itemCreationDate;
+  String itemCreationDate;
   double itemPrice;
   bool isExpanded;
 
