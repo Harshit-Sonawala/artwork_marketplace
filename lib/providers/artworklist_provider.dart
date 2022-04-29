@@ -65,6 +65,8 @@ class ArtworkList with ChangeNotifier {
   List<ArtworkItem> get globalCart => _globalCart;
   double get globalCartTotal => _globalCartTotal;
 
+  // ----- FAVORITES LIST FUNCTIONS -----
+
   bool checkFavorite(passedArtworkId) {
     List<ArtworkItem> foundList =
         globalFavoritesList.where((eachArtwork) => eachArtwork.itemId == passedArtworkId).toList();
@@ -99,7 +101,7 @@ class ArtworkList with ChangeNotifier {
     notifyListeners();
   }
 
-//---------------------------------------
+  // ----- CART FUNCTIONS -----
 
   bool checkCart(passedArtworkId) {
     List<ArtworkItem> foundList = globalCart.where((eachArtwork) => eachArtwork.itemId == passedArtworkId).toList();

@@ -10,7 +10,7 @@ void main() => runApp(
         providers: [
           ChangeNotifierProvider<ArtworkList>(create: (context) => ArtworkList()),
         ],
-        child: ArtworkMarketplace(),
+        child: const ArtworkMarketplace(),
       ),
       // const ArtworkMarketplace(),
     );
